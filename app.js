@@ -9,6 +9,8 @@ function gameInit() {
     let maxYValue;
     let gridSize;
 
+    let fruitCoordinate;
+
     let snakeCoordinates;
 
     function Coordinates(x, y) {
@@ -113,15 +115,30 @@ function gameInit() {
             snakeCoordinates[index].y = 0;
         }
         if (snakeCoordinates[index].y === -1) {
-            snakeCoordinates[index].y = maxYValue-1;
+            snakeCoordinates[index].y = maxYValue - 1;
         }
 
     }
 
     function move() {
+        let newBodyPart;
+        let lastPartDirection;
+        let increaseLength = false;
+        if (headHitFruit()) {
+            increaseLength = true;
+            newBodyPart = new Coordinates(snakeCoordinates[snakeCoordinates.length - 1].x,  // new part will be positioned at the end of the snake
+                snakeCoordinates[snakeCoordinates.length - 1].y);
+            lastPartDirection = allSnakePartsDirection[allSnakePartsDirection.length-1];
+        }
+
         shiftDirections2Right();
         for (let i = 0; i < allSnakePartsDirection.length; i++) {
             moveElement(i, allSnakePartsDirection[i]);
+        }
+
+        if(increaseLength){
+            allSnakePartsDirection.splice(allSnakePartsDirection.length, 0, lastPartDirection); // doesnt matter what we insert, the shift function will fix it for us
+            snakeCoordinates.splice(snakeCoordinates.length, 0, newBodyPart);
         }
         createSnake();
 
@@ -152,14 +169,21 @@ function gameInit() {
         }
     }
 
-    function generateFruit(){
+    function headHitFruit() {
+        return (snakeCoordinates[0].x === fruitCoordinate.x && snakeCoordinates[0].y === fruitCoordinate.y);  // if head is in same coordinate  fruit
+    }
+
+    function generateFruit() {
         let fruit = document.getElementById('fruit');
-        let fruitX = Math.floor(Math.random()*maxXValue);
-        let fruitY = Math.floor(Math.random()*maxYValue);
-        fruit.style.left = (gridSize*fruitX).toString()+'px';
-        fruit.style.top = (gridSize*fruitY).toString()+'px';
-        fruit.style.width = gridSize.toString()+'px';
-        fruit.style.height = gridSize.toString()+'px';
+        let fruitX = Math.floor(Math.random() * maxXValue);
+        let fruitY = Math.floor(Math.random() * maxYValue);
+
+        fruitCoordinate = new Coordinates(fruitX, fruitY);
+
+        fruit.style.left = (gridSize * fruitX).toString() + 'px';
+        fruit.style.top = (gridSize * fruitY).toString() + 'px';
+        fruit.style.width = gridSize.toString() + 'px';
+        fruit.style.height = gridSize.toString() + 'px';
     }
 
     window.addEventListener('keydown', changeDirection);
