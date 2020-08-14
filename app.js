@@ -129,6 +129,7 @@ function gameInit() {
             newBodyPart = new Coordinates(snakeCoordinates[snakeCoordinates.length - 1].x,  // new part will be positioned at the end of the snake
                 snakeCoordinates[snakeCoordinates.length - 1].y);
             lastPartDirection = allSnakePartsDirection[allSnakePartsDirection.length-1];
+            generateFruit();
         }
 
         shiftDirections2Right();
