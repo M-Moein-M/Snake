@@ -63,7 +63,7 @@ function gameInit() {
         initiateSnake();
         createSnake();  // creates snake according to 'snakeCoordinates'
         initAllDirections();
-        moveInterval = setInterval(move, 50);
+        moveInterval = setInterval(move, 100);
 
         generateFruit();
 
@@ -121,6 +121,7 @@ function gameInit() {
     }
 
     function move() {
+
         let newBodyPart;
         let lastPartDirection;
         let increaseLength = false;
@@ -129,12 +130,22 @@ function gameInit() {
             newBodyPart = new Coordinates(snakeCoordinates[snakeCoordinates.length - 1].x,  // new part will be positioned at the end of the snake
                 snakeCoordinates[snakeCoordinates.length - 1].y);
             lastPartDirection = allSnakePartsDirection[allSnakePartsDirection.length-1];
-            generateFruit();
+            generateFruit();  // we generate another fruit when a fruit gets eaten
         }
 
         shiftDirections2Right();
         for (let i = 0; i < allSnakePartsDirection.length; i++) {
             moveElement(i, allSnakePartsDirection[i]);
+        }
+
+        //checking for collision
+        for (let i = 1; i<snakeCoordinates.length; i++){
+            if (snakeCoordinates[0].x === snakeCoordinates[i].x && snakeCoordinates[0].y === snakeCoordinates[i].y) {
+                clearInterval(moveInterval);  // ends the game
+                currentDirection = 'R';
+                alert('press R to restart');
+                return ;
+            }
         }
 
         if(increaseLength){
@@ -146,6 +157,13 @@ function gameInit() {
     }
 
     function changeDirection(event) {
+
+        if (event.code === 'KeyR'){
+            clearInterval(moveInterval);
+            gameStart();
+        }
+
+
         switch (event.code) {
             case 'ArrowUp':
                 if (currentDirection !== 'D') {  // if current direction is down, we can't go up
