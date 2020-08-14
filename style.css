@@ -6,9 +6,17 @@
     width: 600px;
     height: 600px;
     background-color: #25005a;
-    position: relative;
+    position: absolute;
 }
 
 .snake-body-part{
     position: absolute;
 }
+#game-section{
+    position: relative;
+}
+
+#fruit{
+    position: absolute;
+}
+

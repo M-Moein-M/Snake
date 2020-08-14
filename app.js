@@ -59,10 +59,12 @@ function gameInit() {
 
         snakeCoordinates = []; // we store coordinates of every parts of snake body in this array. the head will be the index 0
         initiateSnake();
-
         createSnake();  // creates snake according to 'snakeCoordinates'
         initAllDirections();
         moveInterval = setInterval(move, 50);
+
+        generateFruit();
+
     }
 
     function initAllDirections() {
@@ -148,6 +150,16 @@ function gameInit() {
                 }
                 break;
         }
+    }
+
+    function generateFruit(){
+        let fruit = document.getElementById('fruit');
+        let fruitX = Math.floor(Math.random()*maxXValue);
+        let fruitY = Math.floor(Math.random()*maxYValue);
+        fruit.style.left = (gridSize*fruitX).toString()+'px';
+        fruit.style.top = (gridSize*fruitY).toString()+'px';
+        fruit.style.width = gridSize.toString()+'px';
+        fruit.style.height = gridSize.toString()+'px';
     }
 
     window.addEventListener('keydown', changeDirection);
