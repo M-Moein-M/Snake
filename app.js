@@ -1,5 +1,9 @@
 function gameInit() {
 
+    let currentDirection = 'R';
+    let allSnakePartsDirection;
+    let moveInterval;
+
     let gameFrameDiv = document.getElementById('game-frame');
     let maxXValue;
     let maxYValue;
@@ -57,8 +61,19 @@ function gameInit() {
         initiateSnake();
 
         createSnake();  // creates snake according to 'snakeCoordinates'
+        initAllDirections();
+        moveInterval = setInterval(move, 200);
     }
 
+    function initAllDirections(){
+        allSnakePartsDirection = [];
+        for (let i = 0; i<snakeCoordinates.length; i++){  // for each element we set initial value of 'R' since all the parts are moving to right at the beginning
+            allSnakePartsDirection.splice(i, 0, 'R1');
+        }
+    }
+    function move() {
+
+    }
     gameStart();
 }
 
