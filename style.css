@@ -6,4 +6,9 @@
     width: 600px;
     height: 600px;
     background-color: #25005a;
+    position: relative;
+}
+
+.snake-body-part{
+    position: absolute;
 }
