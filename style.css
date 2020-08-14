@@ -1,0 +1,9 @@
+*{
+    margin: 0;
+    padding-inline: 0;
+}
+.game-frame{
+    width: 600px;
+    height: 600px;
+    background-color: #25005a;
+}
