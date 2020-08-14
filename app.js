@@ -99,6 +99,21 @@ function gameInit() {
 
         snakeCoordinates[index].x += leftChanges;
         snakeCoordinates[index].y += topChanges;
+
+        if (snakeCoordinates[index].x === maxXValue) {
+            snakeCoordinates[index].x = 0;
+        }
+        if (snakeCoordinates[index].x === -1) {
+            snakeCoordinates[index].x = maxXValue - 1;
+
+        }
+        if (snakeCoordinates[index].y === maxYValue) {
+            snakeCoordinates[index].y = 0;
+        }
+        if (snakeCoordinates[index].y === -1) {
+            snakeCoordinates[index].y = maxYValue-1;
+        }
+
     }
 
     function move() {
