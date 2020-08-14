@@ -62,18 +62,46 @@ function gameInit() {
 
         createSnake();  // creates snake according to 'snakeCoordinates'
         initAllDirections();
-        moveInterval = setInterval(move, 200);
+        moveInterval = setInterval(move, 500);
     }
 
-    function initAllDirections(){
+    function initAllDirections() {
         allSnakePartsDirection = [];
-        for (let i = 0; i<snakeCoordinates.length; i++){  // for each element we set initial value of 'R' since all the parts are moving to right at the beginning
-            allSnakePartsDirection.splice(i, 0, 'R1');
+        for (let i = 0; i < snakeCoordinates.length; i++) {  // for each element we set initial value of 'R' since all the parts are moving to right at the beginning
+            allSnakePartsDirection.splice(i, 0, 'R');
         }
     }
-    function move() {
 
+    function moveElement(index, direction) { // changes the x or y of body part at input index according to direction
+        let leftChanges = 0;
+        let topChanges = 0;
+
+        switch (direction){
+            case 'R':
+                leftChanges = 1;
+                break;
+            case 'L':
+                leftChanges = -1;
+                break;
+            case 'U':
+                topChanges = -1;
+                break;
+            case 'D':
+                topChanges = 1;
+                break;
+        }
+
+        snakeCoordinates[index].x += leftChanges;
+        snakeCoordinates[index].y += topChanges;
     }
+
+    function move() {
+        for (let i = 0; i < allSnakePartsDirection.length; i++) {
+            moveElement(i, allSnakePartsDirection[i]);
+        }
+        createSnake();
+    }
+
     gameStart();
 }
 
