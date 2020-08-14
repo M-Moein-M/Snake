@@ -62,7 +62,7 @@ function gameInit() {
 
         createSnake();  // creates snake according to 'snakeCoordinates'
         initAllDirections();
-        moveInterval = setInterval(move, 500);
+        moveInterval = setInterval(move, 50);
     }
 
     function initAllDirections() {
@@ -72,11 +72,17 @@ function gameInit() {
         }
     }
 
+    function shiftDirections2Right() {  // shifting to right will change directions so that every body part direction will be the direction of previous part in next time step
+        for (let i = allSnakePartsDirection.length - 1; i > 0; i--)
+            allSnakePartsDirection[i] = allSnakePartsDirection[i - 1];
+        allSnakePartsDirection[0] = currentDirection; // head's direction will be changed by keyboard controls input
+    }
+
     function moveElement(index, direction) { // changes the x or y of body part at input index according to direction
         let leftChanges = 0;
         let topChanges = 0;
 
-        switch (direction){
+        switch (direction) {
             case 'R':
                 leftChanges = 1;
                 break;
@@ -96,11 +102,40 @@ function gameInit() {
     }
 
     function move() {
+        shiftDirections2Right();
         for (let i = 0; i < allSnakePartsDirection.length; i++) {
             moveElement(i, allSnakePartsDirection[i]);
         }
         createSnake();
+
     }
+
+    function changeDirection(event) {
+        switch (event.code) {
+            case 'ArrowUp':
+                if (currentDirection !== 'D') {  // if current direction is down, we can't go up
+                    currentDirection = 'U';
+                }
+                break;
+            case 'ArrowDown':
+                if (currentDirection !== 'U') {  // if current direction is down, we can't go up
+                    currentDirection = 'D';
+                }
+                break;
+            case 'ArrowLeft':
+                if (currentDirection !== 'R') {  // if current direction is down, we can't go up
+                    currentDirection = 'L';
+                }
+                break;
+            case 'ArrowRight':
+                if (currentDirection !== 'L') {  // if current direction is down, we can't go up
+                    currentDirection = 'R';
+                }
+                break;
+        }
+    }
+
+    window.addEventListener('keydown', changeDirection);
 
     gameStart();
 }
